@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <!-- Load Tensorflow Obtained from https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.11.7-->
+        <script src='./js/tf.js' type='text/javascript'></script>
+        <!-- Load Posenet Obtained from https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet@0.1.2-->
+        <script src='./js/pn.js' type='text/javascript'></script>
+        <!-- Load utilities for webcam -->
+        <script src='./js/utils.js'></script>
+        <!-- Load main app script -->
+        <script src='./index.js'></script>
+        <!-- Load stylesheet -->
+        <link href='./index.css' rel='stylesheet' />
+    </head>
+    <body>
+        <div class='column'>
+            <div id='cameraArea'>
+                <video id='videoInput' width='320' height='240'></video>
+            </div>
+    
+            <div>
+                <canvas id='snapShotCanvas' width="320" height="240"></canvas>
+            </div>
+    
+            <div>
+                <canvas id='frameCanvas' width='320' height="240" style='display: none'></canvas>
+            </div>
+
+            <div class='controls'>
+                <button id='startAndStop'>Start</button>
+                <button id='toggleKPButton'>Show Keypoints</button>
+            </div>
+        </div>
+        
+        <div class='column'>
+            <div id='poseNetOutput'>
+                <p><b>Keypoint Values: </b><span id='keyPointText'></span></p>
+            </div>
+            <div id='scoreOutput'>
+                <p><b>Score: </b><span id='scoreText'></span></p>
+            </div>
+            <div id='jackFlag'>
+                <p><b>Flag: </b><span id='jackFlagText'></span></p>
+            </div>
+        </div>
+    </body>
+</html>
