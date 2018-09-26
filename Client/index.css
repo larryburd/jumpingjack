@@ -4,7 +4,7 @@ body {
     margin: auto;
 }
 
-.controls, .cameraArea, .poseNetOutput, .scoreOutput {
+.controls, .cameraArea, .outputText {
     padding: 10px;
 }
 
