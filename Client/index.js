@@ -54,6 +54,11 @@ function init() {
 
     // Move the overlay canvas over the video output
     moveCanvas();
+
+    //Enable start button
+    startAndStop.disabled = false;
+    startAndStop.innerText = 'Start';
+
 }
 
 // Starts and stops webcam
