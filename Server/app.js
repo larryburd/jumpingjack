@@ -30,7 +30,7 @@ app.get('/tfTrain', (req, res) => {
 app.get('/openBox', (req, res) => {
     sp.write('5', (err) => {
         return console.log('Error on usb write: ', err.message);
-    })
+    });
 });
 
 module.exports = app;

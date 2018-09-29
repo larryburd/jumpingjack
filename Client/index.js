@@ -233,7 +233,14 @@ function updatePageText(leftWristPos, rightWristPos, headPosition, eyePosition) 
                                     <li>Nose Pos Y:     ${headPosition}</li>
                                     <li>Eye Pos Y:      ${eyePosition}</li>
                                 </ul>`;
-    jackFlagText.innerHTML = jackFlag;
+    
+    if (jackFlag) {
+        jackFlagText.innerHTML = 'Arms up captured';
+        jackFlagText.style.backgroundColor = 'green';
+    } else {
+        jackFlagText.innerHTML = 'Arms down captured';
+        jackFlagText.style.backgroundColor = 'orange';
+    }
 }
 
 

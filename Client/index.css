@@ -12,3 +12,11 @@ body {
     display: inline-block;
     vertical-align: top;
 }
+
+.green {
+    background-color:  green;
+}
+
+.red {
+    background-color: red;
+}
