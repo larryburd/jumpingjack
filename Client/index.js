@@ -58,7 +58,6 @@ function init() {
     //Enable start button
     startAndStop.disabled = false;
     startAndStop.innerText = 'Start';
-
 }
 
 // Starts and stops webcam
@@ -137,9 +136,9 @@ function snapshot() {
 
 // Runs posenet
 function posenetCalc(image) {
-    var imageScaleFactor    =   0.8;
-    var outputStride        =   16;
-    var flipHorizontal      =   false;
+    var imageScaleFactor    =   0.8;    // Scale frame to 80%
+    var outputStride        =   16;     // Scan the image with a 16X16 pixel square (options are 8, 16, and 32)
+    var flipHorizontal      =   false;  // Don't flip (mirror effect)
 
     // Load the posenet object and run calculations on provided video frame
     posenet.load().then(function(net){
@@ -172,7 +171,7 @@ function poseSuccessFunc(pose) {
             checkForNonJumpingJack(pose);
         } else {
             // Perform simple check
-            // for arms above the head
+            // for wrists above shoulders
             checkForJumpingJack(pose);
         }
     }  
@@ -183,15 +182,11 @@ function poseSuccessFunc(pose) {
 }
 
 function checkConfidence(pose) {
-    // Need each item to have a higher than 30% confidence score
-    if (pose.keypoints[RIGHTWRIST].score > .2 && 
-        pose.keypoints[LEFTWRIST].score > .2) {
-        
-            return true;
-    }
-
-    // Not enough confidence
-    return false;
+    let isHighEnough;
+    // Need each item to have a higher than 20% confidence score
+    (pose.keypoints[RIGHTWRIST].score > .2 && pose.keypoints[LEFTWRIST].score > .2) ? isHighEnough = true : isHighEnough = false;
+    
+    return isHighEnough
 }
 
 function checkForJumpingJack(pose) {
@@ -210,7 +205,7 @@ function checkForJumpingJack(pose) {
     // so check for less than values
     if (leftWristPos < leftShoulder && rightWristPos < leftShoulder) {
         jackFlag = true; // Mark that a jumping jack was scored
-        updateScore();
+        updateCheckScore();
     }
 }
 
@@ -243,9 +238,42 @@ function updatePageText(leftWristPos, rightWristPos, headPosition, eyePosition) 
 
 
 // Updates score on page
-function updateScore() {
+function updateCheckScore() {
     score++;
     scoreText.innerHTML = score;
+
+    // Check if 15 jacks have been completed
+    if (score >= 15) {
+        console.log(`Opening box...`);
+        openBox();
+        resetSystem();
+
+    }
+}
+
+// Resets system back to initial state
+function resetSystem() {
+    score = 0;
+    toggleVideo();
+}
+
+// Send AJAX request to open the box
+function openBox() {
+    let xhttp = new XMLHttpRequest();
+    const url = '/openBox';
+
+    // Check if req was handled correctly
+    xhttp.onreadystatechange = () => {
+        if(this.readyState === 4 && this.status === 200) {
+            console.log('Request for box open sent.');
+        } else {
+            console.log('Error with open box request.');
+        }
+    }
+
+    xhttp.open('GET', url, true);
+    xhttp.send();
+
 }
 
 // Cause program to 'sleep' for supplied milliseconds
